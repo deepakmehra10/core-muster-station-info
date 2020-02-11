@@ -1,0 +1,96 @@
+{
+  "volumes": null,
+  "id": "core/muster-station-info",
+  "cmd": null,
+  "args": null,
+  "user": null,
+  "env": {
+    "CONSUL_URL": "http://10.16.7.54:8500",
+    "ACL_TOKEN": "64d4048d-f95f-4478-88fa-c15f2c6df77d",
+    "PROJECT": "core-muster-station-info",
+    "LOG_HOME": "/var/log",
+    "HTTP_PORT": "9010",
+    "JAVA_OPTS": "-Xmx512m -Xms384m",
+    "autoScale": "true",
+    "targetRps": "50",
+    "maxInstances": "5",
+    "minInstances": "2"
+  },
+  "instances": 2,
+  "cpus": 0.1,
+  "mem": 1024,
+  "disk": 0,
+  "gpus": 0,
+  "executor": null,
+  "constraints": null,
+  "fetch": null,
+  "storeUrls": null,
+  "backoffSeconds": 1,
+  "backoffFactor": 1.15,
+  "maxLaunchDelaySeconds": 3600,
+  "container": {
+    "docker": {
+      "image": "[SET_BY_PIPELINES]",
+      "forcePullImage": true,
+      "privileged": false,
+      "portMappings": [
+        {
+          "containerPort": 9010,
+          "protocol": "tcp",
+          "name": "core-muster-station-info-lb",
+          "servicePort": 0,
+          "labels": {
+            "VIP_0": "core-muster-station-info-v1:80"
+          }
+        }
+      ],
+      "network": "BRIDGE"
+    }
+  },
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "core/health",
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false
+    }
+  ],
+  "readinessChecks": null,
+  "dependencies": null,
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 0,
+    "maximumOverCapacity": 0.5
+  },
+  "labels": {
+    "DCOS_SERVICE_SCHEME": "http",
+    "HAPROXY_GROUP": "external",
+    "DCOS_SERVICE_NAME": "core-muster-station-info",
+    "DCOS_SERVICE_PORT_INDEX": "0",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "[SET_BY_PIPELINES]",
+    "HAPROXY_0_PATH": "[SET_BY_PIPELINES]",
+    "HAPROXY_0_VHOST": "10.16.4.8,dev1.mesos.rccl.com"
+  },
+  "acceptedResourceRoles": null,
+  "residency": null,
+  "secrets": {
+    "cassandra_user": {
+      "source": "core_voyage_cassandra_user"
+    },
+    "cassandra_password": {
+      "source": "core_voyage_cassandra_password"
+    }
+  },
+  "taskKillGracePeriodSeconds": null,
+  "portDefinitions": [
+    {
+      "port": 0,
+      "protocol": "tcp",
+      "name": "core-muster-station-info",
+      "labels": {}
+    }
+  ],
+  "requirePorts": false
+}
