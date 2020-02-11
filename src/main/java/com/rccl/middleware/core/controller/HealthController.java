@@ -17,5 +17,4 @@ public class HealthController {
     public Mono<ResponseBody<String>> health() {
         return Mono.just(ResponseBody.<String>builder().payload("Health is up!").build());
     }
-    
 }

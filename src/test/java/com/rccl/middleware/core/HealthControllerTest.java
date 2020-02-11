@@ -40,3 +40,4 @@ public class HealthControllerTest {
         assertThat(responseBody.getError(), is(nullValue()));
     }
 }
+
